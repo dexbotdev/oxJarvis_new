@@ -55,7 +55,7 @@ const navigation = (): VerticalNavItemsType => {
       icon: Abacus,
       externalLink: true,
       openInNewTab: false,
-      path: 'https://swaparbinium.netlify.app'
+      path: 'https://aribiniumswap.vercel.app/'
     }, 
     {
       title: 'ArbinoLyzerBot',
