@@ -6,11 +6,7 @@ body {
 #__next {
   height: 100%;
 }
-
-.chakra-ui-dark {
-  min-height: 100%;
-  background-color: '#28243d !important';
-}
+ 
 code {
   font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';

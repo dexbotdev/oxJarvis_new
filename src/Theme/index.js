@@ -70,7 +70,7 @@ const theme = (darkMode) => ({
 
 export const GlobalStyle = createGlobalStyle`
 	body, #__next {
-		background: '#28243d';
+		background: '#052c3c';
 	}
 
   #__next {

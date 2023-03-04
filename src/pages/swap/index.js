@@ -1,41 +1,21 @@
-import * as React from 'react';
- import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WalletWrapper } from 'src/components/WalletProvider';
-import {ConnectButtonX} from 'src/components/ConnectButton';
-import '@rainbow-me/rainbowkit/styles.css';
-import { AggregatorContainer } from 'src/components/Aggregator';
-import { getTokenList } from 'src/components/Aggregator/getTokenList';
- 
-function SwapPage({ Component, pageProps }) {
-	const [queryClient] = React.useState(() => new QueryClient()); 
-	const [isMounted, setIsMounted] = React.useState(false);
-	const [tokenlist, setTokenlist] = React.useState();
+// ** MUI Imports
+import Grid from '@mui/material/Grid'
 
-	const getStaticProps =()=>{
-		return getTokenList();
-	}
+// ** Demo Components Imports
+import TypographyTexts from 'src/views/typography/TypographyTexts'
+import TypographyHeadings from 'src/views/typography/TypographyHeadings'
 
-	React.useEffect(() => {
-		async function fetchData() { 
-			const response = await getTokenList();
-			setTokenlist(response.props.tokenlist);
-			setIsMounted(true);
-
-			console.log(response.props.tokenlist);
-		  }
-		  fetchData();
- 
-	}, []);
-
-	return (
-		<QueryClientProvider client={queryClient}>  
-						{isMounted && (
-							<WalletWrapper>  
-									<AggregatorContainer tokenlist={tokenlist} />
-							</WalletWrapper>
-						)} 
-		</QueryClientProvider>
-	);
+const SwapPage = () => {
+  return (
+    <Grid container spacing={6}>
+      <Grid item xs={12}>
+        <TypographyHeadings />
+      </Grid>
+      <Grid item xs={12}>
+        <TypographyTexts />
+      </Grid>
+    </Grid>
+  )
 }
 
-export default SwapPage;
+export default SwapPage

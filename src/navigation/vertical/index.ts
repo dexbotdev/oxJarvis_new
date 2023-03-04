@@ -56,11 +56,11 @@ const navigation = (): VerticalNavItemsType => {
       path: '/swap'
     },
     {
-      title: 'CoinaLyzerBot',
+      title: 'ArbinoLyzerBot',
       icon: Telegram,
       externalLink: true,
       openInNewTab: true,
-      path: 'https://t.me/CoinaLyzerBot'
+      path: 'https://t.me/ArbinoLyzerBot'
     },
     {
       title: 'Partnerships',
@@ -87,7 +87,7 @@ const navigation = (): VerticalNavItemsType => {
       icon: HomeOutline,
       externalLink: true,
       openInNewTab: true,
-      path: 'https://t.me/Coinalyzer'
+      path: 'https://t.me/Arbinium'
     }
   ]
 }

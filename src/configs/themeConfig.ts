@@ -17,7 +17,7 @@ type ThemeConfig = {
 
 const themeConfig: ThemeConfig = {
   // ** Layout Configs
-  templateName: 'Arbinolyzer' /* App Name */,
+  templateName: 'Arbinium' /* App Name */,
   mode: 'dark' /* light | dark */,
   contentWidth: 'full' /* full | boxed */,
 
