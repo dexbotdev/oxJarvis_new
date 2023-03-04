@@ -28,7 +28,7 @@ const GlobalStyles = (theme: Theme) => {
         }
       }
     },
-
+    
     '#nprogress': {
       pointerEvents: 'none',
       '& .bar': {
