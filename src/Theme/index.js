@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } from 'styled-components';
-import { sm, med, lg, xl, twoXl } from '~/constants/breakpoints';
+import { sm, med, lg, xl, twoXl } from 'src/constants/breakpoints';
 
 export default function ThemeProvider({ children }) {
 	return <StyledComponentsThemeProvider theme={theme('dark')}>{children}</StyledComponentsThemeProvider>;
@@ -28,7 +28,7 @@ const theme = (darkMode) => ({
 	bg7: darkMode ? 'rgba(7,14,15,0.7)' : 'rgba(252,252,251,1)',
 
 	//specialty colors
-	background: darkMode ? '#ffffff' : '#ffffff',
+	background: darkMode ? '#052c3c' : '#ffffff',
 	advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.4)',
 	divider: darkMode ? 'rgba(43, 43, 43, 0.435)' : 'rgba(43, 43, 43, 0.035)',
 
@@ -70,9 +70,18 @@ const theme = (darkMode) => ({
 
 export const GlobalStyle = createGlobalStyle`
 	body, #__next {
-		background: '#052c3c';
+		background-color: ${({ theme }) => theme.background};
 	}
 
+	.MuiCard-root {
+		backdrop-filter: blur(12px) saturate(180%);
+		-webkit-backdrop-filter: blur(12px) saturate(180%);
+		background-color: rgba(17, 25, 40, 0.17);
+		border-radius: 12px;
+		border: 1px solid rgba(255, 255, 255, 0.125);
+	}
+
+	
   #__next {
     display: flex;
     flex-direction: column;

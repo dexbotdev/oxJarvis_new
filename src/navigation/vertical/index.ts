@@ -53,8 +53,10 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Swap',
       icon: Abacus,
-      path: '/swap'
-    },
+      externalLink: true,
+      openInNewTab: false,
+      path: 'https://swaparbinium.netlify.app'
+    }, 
     {
       title: 'ArbinoLyzerBot',
       icon: Telegram,

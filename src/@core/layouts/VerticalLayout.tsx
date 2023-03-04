@@ -26,7 +26,8 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
-  display: 'flex'
+  display: 'flex',
+  backgroundColor:'transparent'
 })
 
 const MainContentWrapper = styled(Box)<BoxProps>({
@@ -64,7 +65,7 @@ const VerticalLayout = (props: LayoutProps) => {
 
   return (
     <>
-      <VerticalLayoutWrapper className='layout-wrapper'>
+      <VerticalLayoutWrapper>
         {/* Navigation Menu */}
         <Navigation
           navWidth={navWidth}

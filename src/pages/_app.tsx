@@ -2,8 +2,7 @@
 import Head from 'next/head'
 import { Router } from 'next/router'
 import type { NextPage } from 'next'
-import type { AppProps } from 'next/app'
-
+import type { AppProps } from 'next/app'   
 import * as React from 'react'; 
 
 // ** Loader Import
@@ -27,8 +26,7 @@ import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsCo
 import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
 
 // ** React Perfect Scrollbar Style
-import 'react-perfect-scrollbar/dist/css/styles.css'
-import '../Theme/globals.css';
+import 'react-perfect-scrollbar/dist/css/styles.css' 
 
 // ** Global css styles
 import '../../styles/globals.css'
@@ -57,16 +55,20 @@ if (themeConfig.routingLoader) {
 // ** Configure JSS & ClassName
 const App = (props: ExtendedAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
-
+ 
   // Variables
-  const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
+  const getLayout = Component.getLayout ?? (page =>  
+              <UserLayout>{page}</UserLayout> 
+  )
 
   return (
+
     <CacheProvider value={emotionCache}>
       <Head>
         <title>{`${themeConfig.templateName}`}</title> 
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
+
 
       <SettingsProvider>
         <SettingsConsumer>
