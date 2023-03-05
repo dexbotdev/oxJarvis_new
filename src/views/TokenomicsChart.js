@@ -21,7 +21,7 @@ const TokenomicsChart = () => {
       position: 'bottom'
     },
     stroke: { width: 0 },
-    labels: ['Presale', 'Liquidity', 'Development', 'Team','Marketing'],
+    labels: ['Presale', 'Liquidity', 'Marketing', 'Development','Private','Team','Airdrop','Burning'],
     colors: [donutColors.series1, donutColors.series2, donutColors.series3, donutColors.series4, donutColors.series5],
     dataLabels: {
       enabled: true,
@@ -96,7 +96,7 @@ const TokenomicsChart = () => {
       }
     ]
   }
-  const series = [50, 30, 10, 5,5]
+  const series = [25, 24, 10, 10, 10, 5,6,10]
 
   return (
     <Card>
