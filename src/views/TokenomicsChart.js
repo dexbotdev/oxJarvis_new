@@ -21,7 +21,7 @@ const TokenomicsChart = () => {
       position: 'bottom'
     },
     stroke: { width: 0 },
-    labels: ['Presale', 'Liquidity', 'Marketing', 'Development','Private','Team','Airdrop','Burning'],
+    labels: ['Presale', 'Liquidity', 'Marketing', 'Development','Private','Team','Airdrop','Future Ecosystem Development'],
     colors: [donutColors.series1, donutColors.series2, donutColors.series3, donutColors.series4, donutColors.series5],
     dataLabels: {
       enabled: true,
