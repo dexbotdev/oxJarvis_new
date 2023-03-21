@@ -33,15 +33,8 @@ module.exports = class HoneypotCheckerCaller {
         value: this.value,
         gasLimit: this.gasLimit,
         gasPrice: this.gasPrice,  
-      }).then(res=>res)
-      .catch(error=>console.log(error));
-
-
-    return result;
-    }catch(error){
-
-      console.log(error)
-
+      }).then(res=>res) 
+    }catch(error){ 
       return {
         buyGas:-1,
         sellGas:-1,

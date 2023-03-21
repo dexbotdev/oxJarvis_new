@@ -117,9 +117,7 @@ const Dashboard = () => {
         return;
 
       }
- 
-      console.log(dexscreener);
-      console.log(dexscreener.data); 
+  
       
     if (dexscreener?.data) {
 
