@@ -17,7 +17,7 @@ type ThemeConfig = {
 
 const themeConfig: ThemeConfig = {
   // ** Layout Configs
-  templateName: 'Arbinium' /* App Name */,
+  templateName: 'OxJARVIS' /* App Name */,
   mode: 'dark' /* light | dark */,
   contentWidth: 'full' /* full | boxed */,
 

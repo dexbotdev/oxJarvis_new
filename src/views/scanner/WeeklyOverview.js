@@ -113,11 +113,11 @@ const WeeklyOverview = (props) => {
         }
       />
       <CardContent sx={{ '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
-      <Item tag='Name' value={props.data.name} />
-                  <Item tag='Symbol' value={props.data.symbol} />
-                  <Item tag='Network' value={props.data.network} /> 
-                  <Item tag='LP Pair' value={props.data.dexId} />
-                  <Item tag='Created At' value={props.data.pairCreatedAt} />
+      <Item tag='Name' value={props.data.Token.Name} />
+                  <Item tag='Symbol' value={props.data.Token.Symbol} />
+                  <Item tag='Network' value="ETHEREUM" /> 
+                  <Item tag='LP Pair' value={props.data.WithToken.Symbol} />
+                  <Item tag='Created At' value={new Date(props.data.pair.pairCreatedAt).toLocaleString()} />
       </CardContent>
 
     </Card>
@@ -134,7 +134,7 @@ const WeeklyOverview = (props) => {
         }
       />
       <CardContent sx={{ '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
-      <Item tag='FDV' value={props.data.fdv} /> 
+      <Item tag='FDV' value={props.data.pair.fdv} /> 
       </CardContent>
 
     </Card>

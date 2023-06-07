@@ -69,6 +69,15 @@ const renderStats = () => {
 }
 
 const StatisticsCard = (props) => {
+
+  const checkHoneyPot = (item)=>{
+
+    console.log(item=== null || item === 'null' || item === undefined || item === 'undefined' || item === false);
+    if(item=== null || item === 'null' || item === undefined || item === 'undefined' || item === false){
+      return 'PASSED'
+    } else return 'FAILED';
+
+  }
   return (
     <Card>
       <CardHeader
@@ -81,7 +90,7 @@ const StatisticsCard = (props) => {
         subheader={
           <Typography variant='body2'>
             <Box component='span' sx={{ fontWeight: 600, color: 'cyan' }}>
-              Price  changed {props.data.h1} % in last  1 Hour
+              Price  changed {props.data.pair.priceChange?.h1} % in last  1 Hour
             </Box>
           </Typography>
         }
@@ -112,7 +121,7 @@ const StatisticsCard = (props) => {
               </Avatar>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Typography variant='caption'>HoneyPot</Typography>
-                <Typography variant='h6'>{props.data.isHoneyPot}</Typography>
+                <Typography variant='h6'>{checkHoneyPot(props.data.IsHoneypot)}</Typography>
               </Box>
             </Box>
           </Grid>
@@ -133,7 +142,7 @@ const StatisticsCard = (props) => {
               </Avatar>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Typography variant='caption'>Blacklist</Typography>
-                <Typography variant='h6'>{props.data.blacklisted?'Enabled':'Not Found'}</Typography>
+                <Typography variant='h6'>{checkHoneyPot(props.data.IsHoneypot)}</Typography>
               </Box>
             </Box>
           </Grid>
@@ -175,7 +184,7 @@ const StatisticsCard = (props) => {
               </Avatar>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Typography variant='caption'>Tax Range</Typography>
-                <Typography variant='h6'>{props.data.buyTax>10?' High ':' Low'}</Typography>
+                <Typography variant='h6'>{props.data.BuyTax>10?' High ':' Low'}</Typography>
               </Box>
             </Box>
           </Grid>

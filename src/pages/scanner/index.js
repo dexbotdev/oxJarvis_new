@@ -1,4 +1,4 @@
-/* eslint-disable */ 
+/* eslint-disable */
 
 import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -32,192 +32,109 @@ import axios from 'axios';
 import Backdrop from '@mui/material/Backdrop';
 import HoneypotCheckerCaller from 'src/api/HoneypotCheckerCaller';
 import Web3 from 'web3';
-import { RPC,SUSHISWAP_SWAP_ROUTER_ADDRESS , WBNB_ADDRESS,HONEYPOT_CHECKER_ADDRESS} from 'src/constants'
+import { RPC, SUSHISWAP_SWAP_ROUTER_ADDRESS, WBNB_ADDRESS, HONEYPOT_CHECKER_ADDRESS } from 'src/constants'
+import { HoneypotIsV1 } from '@normalizex/honeypot-is';
 
+import { getPairInformationByChain } from 'dexscreener-api';
 const { bep20Abi } = require("src/ABI");
+const defcont = '0x2eCBa91da63C29EA80Fbe7b52632CA2d1F8e5Be0';
 
 
 const Item = (props) => {
-  let colorTxt='cyan';
-  if(props.value === 'FAILED' || props.value === 'UnVerified' || Number(props.value)<0)
-  colorTxt='red'
+  let colorTxt = 'cyan';
+  if (props.value === 'FAILED' || props.value === 'UnVerified' || Number(props.value) < 0)
+    colorTxt = 'red'
 
   return (<Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', mt: 3 }}>
-  <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-    <Typography variant='body2' sx={{ color: 'common.grey', fontWeight: 'bolder' }}>
-      {props.tag}
-    </Typography>
-  </Box>
-  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-    <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
-      <Typography variant='button' sx={{ color: colorTxt, fontWeight: 'bolder' }}>
-        {props.value}
+    <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
+      <Typography variant='body2' sx={{ color: 'common.grey', fontWeight: 'bolder' }}>
+        {props.tag}
       </Typography>
     </Box>
-  </Box>
-</Box>)};
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
+        <Typography variant='button' sx={{ color: colorTxt, fontWeight: 'bolder' }}>
+          {props.value}
+        </Typography>
+      </Box>
+    </Box>
+  </Box>)
+};
 
 const Dashboard = () => {
 
   const [network, setNetwork] = React.useState('');
   const [tokenAddress, setTokenAddress] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false)
-  const [tokenInfo,setTokenInfo] = useState({});
+  const [tokenInfo, setTokenInfo] = useState({});
+  const [tokenScanData, setTokenScanData] = useState({});
 
   const handleClose = () => {
     setIsLoading(false);
   };
 
-  const checkforHoneyPot =(abi)=>{
+  const checkforHoneyPot = (abi) => {
 
     console.log(abi);
     var str = JSON.stringify(abi).toLowerCase();
 
-    const isAccounting = str.indexOf('accounting')>0;
-    const isLibrary = str.indexOf('library')>0;
-    const isBlackList = str.indexOf('blacklist')>0;
+    const isAccounting = str.indexOf('accounting') > 0;
+    const isLibrary = str.indexOf('library') > 0;
+    const isBlackList = str.indexOf('blacklist') > 0;
 
     console.log(str);
     console.log(isAccounting);
     console.log(isLibrary);
     console.log(isBlackList);
 
-    if(isAccounting ) return true;
-    else if(isBlackList) return true;
-    else if(isLibrary) return true;
+    if (isAccounting) return true;
+    else if (isBlackList) return true;
+    else if (isLibrary) return true;
 
     return false;
 
   }
-  const fetchTokenDetails=()=>{
-      if(tokenAddress != undefined){
-        getTokenDetails(tokenAddress)
-      } else {
-        alert('Enter Token Address')
-      }
+  const fetchTokenDetails = () => {
+    if (tokenAddress != undefined) {
+      getTokenDetails(tokenAddress)
+    } else {
+      alert('Enter Token Address')
+    }
   }
 
-  const getTokenDetails = async (tokenAddress) => {
+  const getTokenDetails = async (tokenAddress) => { 
+    const CHAIN_ID = 1;
+    const honeypotis = new HoneypotIsV1();
+    const BUSD = tokenAddress; 
+    if (BUSD !== undefined && BUSD !== "") {
+      setIsLoading(true)
 
-    if(!Web3.utils.isAddress(tokenAddress)){
-      alert('Not a Valid Address');
-      return;
-    }
-    setIsLoading(true);
-    setTokenInfo({});
-    const dexscreener = await axios
-      .get(`https://api.dexscreener.com/latest/dex/tokens/${tokenAddress}`)
-      .then((res) => res)
-      .catch((err) => null);
+      const BUSD_PAIRS = await honeypotis.getPairs(BUSD, CHAIN_ID);
 
-      
-      if(dexscreener === null ){
+      await honeypotis.honeypotScan(
+        BUSD,
+        BUSD_PAIRS[0].Router,
+        BUSD_PAIRS[0].Pair,
+        CHAIN_ID
+      ).then((result) => {
 
-        alert('Token data not updated');
-        return;
-
-      }
-  
-      
-    if (dexscreener?.data) {
-
-      const pusd = Number(dexscreener.data.pairs[0].priceUsd);
-      const pnat = Number(dexscreener.data.pairs[0].priceNative)
-
-      const quotePrice =2*pusd/pnat;
-
-      let liquidityinQuote = 0;
-      let liquiditys = 0;
-      if(dexscreener.data.pairs[0]?.liquidity)
-      {
-        liquidityinQuote=Number(dexscreener.data.pairs[0]?.liquidity?.usd)/quotePrice;
-        liquiditys=Number(dexscreener.data.pairs[0]?.liquidity?.usd);
-    }
-
-      const chainId = dexscreener.data.pairs[0].chainId;
-      const dexId = dexscreener.data.pairs[0].dexId;
-      const name = dexscreener.data.pairs[0].baseToken.name;
-      const symbol = dexscreener.data.pairs[0].baseToken.symbol;
-      const priceUsd = dexscreener.data.pairs[0].priceUsd;
-      const liquidity = Number(liquidityinQuote).toFixed(2)+dexscreener.data.pairs[0].quoteToken.symbol+' ($'+liquiditys.toFixed(2)/2+')';
-      const pairCreatedAt = dexscreener.data.pairs[0].pairCreatedAt;
-      const h1 = dexscreener.data.pairs[0].priceChange.h1;
-      const fdv = dexscreener?.data?.pairs[0]?.fdv.toLocaleString("en-US");; 
- 
-        const web3 = new Web3(new Web3.providers.HttpProvider(RPC));
-        const honeypotCheckerCaller = new HoneypotCheckerCaller(
-          web3,
-          HONEYPOT_CHECKER_ADDRESS
-        )
-
-        const {
-          buyGas,
-          sellGas,
-          estimatedBuy,
-          exactBuy,
-          estimatedSell,
-          exactSell,
-        } = await honeypotCheckerCaller.check(SUSHISWAP_SWAP_ROUTER_ADDRESS, [
-          WBNB_ADDRESS,
-          tokenAddress,
-        ]);
-
-        console.log(buyGas,
-          sellGas,
-          estimatedBuy,
-          exactBuy,
-          estimatedSell,
-          exactSell)
- 
-        const [buyTax, sellTax] = [
-          honeypotCheckerCaller.calculateTaxFee(estimatedBuy, exactBuy),
-          honeypotCheckerCaller.calculateTaxFee(estimatedSell, exactSell),
-        ]; 
-         
-
-        let verified=false;
-        let honeyPotCheck=false;
-        const verificationdata = await axios
-          .get(`https://api.arbiscan.io/api?module=contract&action=getabi&address=${tokenAddress}&apikey=ZGTK2TAGWMAB6IAC12BMK8YYPNCPIM8VDQ`)
-          .then((response)=>{
-            if(response.data.status>0)verified=true;
-
-             let honeyPotCheck = checkforHoneyPot(response.data.result)?'FAILED':'PASSED';
-            
-            if(buyGas === -1)honeyPotCheck='FAILED';
-
-            console.log('hpchecl '+ honeyPotCheck);
-            setTokenInfo({
-              name:name,
-              symbol:symbol,
-              network:String(chainId).toUpperCase(),
-              dexId:String(dexId).toUpperCase(),
-              h1:h1,
-              buygas:buyGas,
-              sellgas:sellGas,
-              buyTax:buyTax,
-              sellTax:sellTax,
-              liquidity:liquidity, 
-              priceUsd:Number(priceUsd).toFixed(8)+' (in usd )', 
-              pairCreatedAt:new Date(pairCreatedAt).toLocaleDateString(),
-              isHoneyPot:honeyPotCheck, 
-              verified:verified,
-              blacklisted:!honeyPotCheck,
-              fdv:fdv
-            })
-            setIsLoading(false);
+        getPairInformationByChain("ethereum",result.PairAddress).then((response)=>{
 
 
-          })
-          .catch((err) => null);
+          result.pair=response.pair; 
 
-          
+          console.log(result)
 
-        
-      
-    }
+          setTokenScanData(result)
+          setIsLoading(false)
 
-    console.log(dexscreener.data.pairs[0]);
+        })
+       }).catch(Error => {
+
+        setIsLoading(false)
+       })
+    } 
+
   }
   const handleChange = (event) => {
     setNetwork(event.target.value);
@@ -226,10 +143,10 @@ const Dashboard = () => {
     setTokenAddress(event.target.value);
   };
 
-  useEffect(()=>{
-     getTokenDetails('0xd4d42f0b6def4ce0383636770ef773390d85c61a');
-  },[])
- 
+  useEffect(() => {
+    getTokenDetails(defcont);
+  }, [])
+
   return (
     <Grid>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
@@ -261,8 +178,8 @@ const Dashboard = () => {
                       variant="standard"
                     />
                   </Grid>
-                  <Grid item> 
-                    <Button variant="contained" sx={{ mr: 1 }} onClick={()=>{
+                  <Grid item>
+                    <Button variant="contained" sx={{ mr: 1 }} onClick={() => {
                       fetchTokenDetails();
                     }}>
                       Scan Token
@@ -271,78 +188,78 @@ const Dashboard = () => {
                 </Grid>
               </Toolbar>
             </AppBar>
-          </Paper> 
+          </Paper>
         </CardContent>
       </Card>
       {
-          isLoading  ?
-            <Backdrop
-              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-              open={isLoading}
-              onClick={handleClose}
-            >
-              <CircularProgress color="inherit" />
-            </Backdrop> :
-            tokenInfo.symbol? 
-      <ApexChartWrapper sx={{ mt: 4 }}>
+        isLoading ?
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={isLoading}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop> :
+          tokenScanData.Token ?
+            <ApexChartWrapper sx={{ mt: 4 }}>
 
-      <Grid container spacing={6}>
-        <Grid item xs={12} md={4}>
-          <Trophy name={tokenInfo.name} priceusd={tokenInfo.priceUsd} network={tokenInfo.network}/>
-        </Grid>
-        <Grid item xs={12} md={8}>
-          <StatisticsCard data={tokenInfo}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <WeeklyOverview  data={tokenInfo}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <TotalEarning  data={tokenInfo}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Grid container spacing={6}>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats={tokenInfo.buygas}
-                icon={<Poll />}
-                color='success' 
-                title='Buy Gas'
-                subtitle='in wei'
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats={tokenInfo.sellgas}
-                title='Sell Gas'
-                color='secondary' 
-                subtitle='in wei'
-                icon={<CurrencyUsd />}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats={tokenInfo.buyTax}
-                trend='negative' 
-                title='Buy Tax'
-                subtitle='in pct'
-                icon={<BriefcaseVariantOutline />}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-               stats={tokenInfo.sellTax}
-               trend='negative' 
-               title='Sell Tax'
-               subtitle='in pct'
-                color='warning' 
-                icon={<HelpCircleOutline />}
-              />
-            </Grid>
-          </Grid>
-        </Grid> 
-      </Grid>
-      </ApexChartWrapper> :'' }
-       
+              <Grid container spacing={6}>
+                <Grid item xs={12} md={4}>
+                  <Trophy name={tokenScanData.Token.Name} priceusd={tokenScanData.pair.priceUsd} network={tokenScanData.pair.chainId} />
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <StatisticsCard data={tokenScanData} />
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <WeeklyOverview data={tokenScanData} />
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <TotalEarning data={tokenScanData} />
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <Grid container spacing={6}>
+                    <Grid item xs={6}>
+                      <CardStatisticsVerticalComponent
+                        stats={Number(tokenScanData.BuyGas).toFixed(2)}
+                        icon={<Poll />}
+                        color='success'
+                        title='Buy Gas'
+                        subtitle='in wei'
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <CardStatisticsVerticalComponent
+                        stats={Number(tokenScanData.SellGas).toFixed(2)}
+                        title='Sell Gas'
+                        color='secondary'
+                        subtitle='in wei'
+                        icon={<CurrencyUsd />}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <CardStatisticsVerticalComponent
+                        stats={Number(tokenScanData.BuyTax).toFixed(2)}
+                        trend='negative'
+                        title='Buy Tax'
+                        subtitle='in pct'
+                        icon={<BriefcaseVariantOutline />}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <CardStatisticsVerticalComponent
+                        stats={Number(tokenScanData.SellTax).toFixed(2)}
+                        trend='negative'
+                        title='Sell Tax'
+                        subtitle='in pct'
+                        color='warning'
+                        icon={<HelpCircleOutline />}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </ApexChartWrapper> : ''}
+
     </Grid>
   )
 }

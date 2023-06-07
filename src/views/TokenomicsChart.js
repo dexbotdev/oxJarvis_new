@@ -9,9 +9,7 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 const donutColors = {
   series1: '#fdd835',
   series2: '#00d4bd',
-  series3: '#826bf8',
-  series4: '#32baff',
-  series5: '#ffa1a1'
+  series3: '#826bf8', 
 }
 
 const TokenomicsChart = () => {
@@ -21,7 +19,7 @@ const TokenomicsChart = () => {
       position: 'bottom'
     },
     stroke: { width: 0 },
-    labels: ['Presale', 'Liquidity', 'Marketing', 'Development','Private','Team','Airdrop','Future Ecosystem Development'],
+    labels: ['Presale', 'Liquidity', 'Cex'],
     colors: [donutColors.series1, donutColors.series2, donutColors.series3, donutColors.series4, donutColors.series5],
     dataLabels: {
       enabled: true,
@@ -96,7 +94,7 @@ const TokenomicsChart = () => {
       }
     ]
   }
-  const series = [25, 24, 10, 10, 10, 5,6,10]
+  const series = [60, 35, 5]
 
   return (
     <Card>

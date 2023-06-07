@@ -154,7 +154,7 @@ const TotalEarning = (props) => {
          </Box>
  
         <Typography variant='body2' sx={{ fontWeight: 600, textAlign: 'center', color: 'text.primary' }}>
-          Current Price {props.data.priceUsd}
+          Current Price {props.data.pair.priceUsd}
         </Typography>
  
       </CardContent>
@@ -162,7 +162,7 @@ const TotalEarning = (props) => {
         <h5>Liquidity</h5> 
         <ReactApexcharts type='bar' height={98} options={optionsSessions} series={seriesSessions} />
         <Typography variant='body2' sx={{ fontWeight: 600, textAlign: 'center', color: 'text.primary' }}>
-        {props.data.liquidity}
+        {props.data.pair.liquidity.usd}
         </Typography>
       </CardContent>
     </Card>

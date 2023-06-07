@@ -9,7 +9,10 @@ import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
 import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
-// ** Icon imports 
+
+import   Twitter   from 'mdi-material-ui/Twitter' 
+import   Discord   from 'mdi-material-ui/Discord' 
+import   Timeline   from 'mdi-material-ui/Timeline' 
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import CalendarBlankOutline from 'mdi-material-ui/CalendarBlankOutline'
 import Abacus from 'mdi-material-ui/Abacus'
@@ -49,26 +52,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       sectionTitle: 'Section'
-    },
-    {
-      title: 'Swap',
-      icon: Abacus,
-      externalLink: true,
-      openInNewTab: false,
-      path: 'https://aribiniumswap.vercel.app/'
-    }, 
-    {
-      title: 'ArbinoLyzerBot',
-      icon: Telegram,
-      externalLink: true,
-      openInNewTab: true,
-      path: 'https://t.me/ArbinoLyzerBot'
-    },
-    {
-      title: 'Partnerships',
-      icon: Unity,
-      path: '/partnerships'
-    }, ,
+    },   
     {
       title: 'Tokenomics',
       icon: GoogleCirclesExtended,
@@ -83,14 +67,21 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Roadmap',
       icon: CalendarBlankOutline,
       path: '/roadmap'
-    },
-    {
-      title: 'Community',
-      icon: HomeOutline,
-      externalLink: true,
-      openInNewTab: true,
-      path: 'https://t.me/Arbinium'
-    }
+    }, 
+      {
+        title: 'Twitter',
+        icon: Twitter, 
+        externalLink: true,
+        openInNewTab: true,
+        path: 'https://twitter.com/JarvisERC20'
+      }, 
+      {
+        title: 'Telegram',
+        icon: Timeline, 
+        externalLink: true,
+        openInNewTab: true,
+        path: ' https:/t.me/OxJARVISERC'
+      }, 
   ]
 }
 
