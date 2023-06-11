@@ -54,6 +54,20 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Section'
     },   
     {
+      title: '0xJarvis(swap)',
+      icon: Abacus, 
+      externalLink: true,
+      openInNewTab: true,
+      path: 'https://oxjarvisswap.netlify.app'
+    },  
+    {
+      title: '0xJarvis TG ',
+      icon: Telegram, 
+      externalLink: true,
+      openInNewTab: true,
+      path: 'https:/t.me/OxJARVISERC'
+    }, 
+    {
       title: 'Tokenomics',
       icon: GoogleCirclesExtended,
       path: '/tokenomics'
@@ -74,14 +88,7 @@ const navigation = (): VerticalNavItemsType => {
         externalLink: true,
         openInNewTab: true,
         path: 'https://twitter.com/JarvisERC20'
-      }, 
-      {
-        title: 'Telegram',
-        icon: Timeline, 
-        externalLink: true,
-        openInNewTab: true,
-        path: ' https:/t.me/OxJARVISERC'
-      }, 
+      },  
   ]
 }
 
