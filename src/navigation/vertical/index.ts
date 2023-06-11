@@ -54,6 +54,13 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Section'
     },   
     {
+      title: 'JARVIS LIVE',
+      icon: CubeOutline, 
+      externalLink: true,
+      openInNewTab: true,
+      path: 'https://ethscanner.vercel.app/'
+    },  
+    {
       title: '0xJarvis(swap)',
       icon: Abacus, 
       externalLink: true,
